@@ -159,6 +159,73 @@ class StreamerController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const {id} = params
+    let { nome,
+      cpf,
+      telefone,
+      email,
+      senha,
+      confsenha,
+      rua,
+      numero,
+      complemento,
+      uf,
+      bairro,
+      cidade,
+      cep
+    } = request.body;
+    if(senha!=confsenha){
+      let response = {
+        data: null,
+        result:false,
+        message:"Senhas não conferem"
+      }
+
+      return response;
+    }
+    try{
+
+      let streamer = await Streamer.findBy('idStreamer', id);
+
+      streamer.nome=nome;
+      streamer.cpf=cpf;
+      streamer.telefone=telefone;
+      streamer.email=email;
+      streamer.senha=senha;
+
+      await streamer.save()
+
+      await streamer
+        .endereco()
+      .update({
+        logradouro:rua,
+        numero:numero,
+        complemento:complemento,
+        bairro:bairro,
+        cidade:cidade,
+        uf:uf,
+        cep:cep
+      })
+
+      streamer =  await Streamer.query()
+        .where('idStreamer',id)
+        .with('endereco')
+      .fetch();
+
+      let response = {
+        data: streamer,
+        result:true,
+        message:"Cadastro atualizado com sucesso"
+      }
+      return response;
+    }catch(err){
+      let response = {
+        data: null,
+        result:false,
+        message:err.message
+      }
+      return response;
+    }
   }
 
   /**
