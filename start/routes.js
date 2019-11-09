@@ -22,3 +22,7 @@ Route.get('/', () => {
 
 Route.resource("/api/streamer/","StreamerController").apiOnly();
 Route.post("/api/streamer/login","StreamerController.login");
+
+Route.resource("/api/monitoramento/","MonitoramentoController").apiOnly();
+
+Route.resource("/api/maquina/","MaquinaController").apiOnly();
