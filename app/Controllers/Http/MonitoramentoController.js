@@ -111,6 +111,35 @@ class MonitoramentoController {
    */
   async destroy ({ params, request, response }) {
   }
+
+  async lastReg({params, request, response}){
+    try{
+      let maquina = await Maquina.findByOrFail("idStreamer", params.id);
+      const idMaquina = maquina.idMaquina;
+      const monitoramento = await Monitoramento.query()
+        .with('alerta')
+        .with('maquina')
+        .where('idMaquina', idMaquina)
+        .orderBy('idMonitoramento', 'desc')
+        .limit(1)
+      .fetch();
+
+      let response = {
+        data:monitoramento,
+        result:true,
+        message:"Operação OK"
+      }
+      return response;
+      }catch(err){
+
+        let response = {
+          data: null,
+          result:false,
+          message:err.message
+        }
+        return response;
+      }
+  }
 }
 
 module.exports = MonitoramentoController

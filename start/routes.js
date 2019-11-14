@@ -19,10 +19,11 @@ const Route = use('Route')
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
-
+//STREAMER
 Route.resource("/api/streamer/","StreamerController").apiOnly();
 Route.post("/api/streamer/login","StreamerController.login");
-
+//MONITORAMENTO
 Route.resource("/api/monitoramento/","MonitoramentoController").apiOnly();
-
+Route.get("/api/monitoramento/lastReg/:id","MonitoramentoController.lastReg")
+//MAQUINA
 Route.resource("/api/maquina/","MaquinaController").apiOnly();
