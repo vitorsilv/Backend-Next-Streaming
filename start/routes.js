@@ -25,5 +25,6 @@ Route.post("/api/streamer/login","StreamerController.login");
 //MONITORAMENTO
 Route.resource("/api/monitoramento/","MonitoramentoController").apiOnly();
 Route.get("/api/monitoramento/lastReg/:id","MonitoramentoController.lastReg")
+Route.get("/api/monitoramento/lastTen/:id","MonitoramentoController.lastTen")
 //MAQUINA
 Route.resource("/api/maquina/","MaquinaController").apiOnly();
